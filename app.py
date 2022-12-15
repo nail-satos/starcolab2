@@ -464,7 +464,7 @@ def view_activity():
 
         # 「AIとおしゃべりしよう」の起動
         if activitys.index(activity_name) == 3:
-            ai00_01_a2.view_lesson()
+            ai00_01_a3.view_lesson()
 
         # 以降の処理を停止
         st.stop()
