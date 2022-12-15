@@ -1,0 +1,39 @@
+{
+    "ai00_02": [
+        {
+            "Chapter": "準備編",
+            "Lesson": "AIのプログラムを作るには"
+        },
+        
+        {
+            "Activity_ID": "a1",
+            "Activity": "STAR ColabでPythonを動かそう",
+            "Steps": 6
+        },
+
+        {
+            "Activity_ID": "a2",
+            "Activity": "いろいろなエラーを体験しよう",
+            "Steps": 5
+        }
+    ],
+    "ai01_01": [
+        {
+            "Chapter": "認識編",
+            "Lesson": "「認識」とは何か？"
+        },
+        
+        {
+            "Activity_ID": "a1",
+            "Activity": "偉人を探せ！画像生成編",
+            "Steps": 5
+        },
+
+        {
+            "Activity_ID": "a2",
+            "Activity": "偉人を探せ！画像認識編",
+            "Steps": 2
+        }
+    ]    
+
+}
