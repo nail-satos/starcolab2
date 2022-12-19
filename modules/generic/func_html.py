@@ -1,17 +1,17 @@
 # HTMLの独自短縮タグを標準のタグに変換する関数
-def trans_html_tag(str_message):
+def trans_html_tag(message):
         
-        str_message = str_message.replace('<R>', '<font color=red>')
-        str_message = str_message.replace('<G>', '<font color=green>')
-        str_message = str_message.replace('<B>', '<font color=blue>')
-        str_message = str_message.replace('<P>', '<font color=purple>')
-        str_message = str_message.replace('</>', '</font>')
-        str_message = str_message.replace('<C>', '<br>')
+        message = message.replace('<R>', '<font color=red>')
+        message = message.replace('<G>', '<font color=green>')
+        message = message.replace('<B>', '<font color=blue>')
+        message = message.replace('<P>', '<font color=purple>')
+        message = message.replace('</>', '</font>')
+        message = message.replace('<C>', '<br>')
 
-        return str_message
+        return message
 
 # HTML文字列を生成する関数（枠）
-def make_html_frame(str_title, str_message):
+def make_html_frame(str_title, message):
 
         str1 = """
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -59,12 +59,12 @@ def make_html_frame(str_title, str_message):
         </body>
         </html>"""
 
-        ret = str1 + str_title + str2 + str_message + str3
-        return ret
+        ret_html = str1 + str_title + str2 + message + str3
+        return ret_html
 
 
 # HTML文字列を生成する関数（吹き出し）
-def make_html_balloon(file_name, str_message):
+def make_html_balloon(file_name, message, back_color='aliceblue'):
 
         str1 = """
                 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,7 +89,9 @@ def make_html_balloon(file_name, str_message):
                 max-width: 100%;
                 color: #555;
                 font-size: 16px;
-                background: aliceblue;
+                background: """
+
+        str2 = """;
                 border-radius: 15px;
                 border: solid 1px #888;
                 }
@@ -102,7 +104,9 @@ def make_html_balloon(file_name, str_message):
                 width: 10px;
                 height: 10px;
                 transform: translate(-50%, -50%) rotate(45deg);
-                background: aliceblue;
+                background: """
+        
+        str3 = """;
                 border-left: solid 1px #888;
                 border-bottom: solid 1px #888;
                 }
@@ -119,20 +123,20 @@ def make_html_balloon(file_name, str_message):
                 <!-- キャラクターと吹き出し -->
                 <div class="flex items-center">
                 <div>
-                <img src="https://nai-lab.com/poc/starai/ai00-02/static/assets/character/"""
+                <img src="https://nai-lab.com/datasets/starcolab/balloon/"""
 
-        str2 = """" alt="" style="width: 120px; height:auto;">
+        str4 = """" alt="" style="width: 120px; height:auto;">
                 </div>
                 <div class="balloon-left">
                 <p>"""
 
-        str3 = """</p>
+        str5 = """</p>
                 </div>
                 </div>
 
                 </body>
                 </html>"""
 
-        ret = str1 + file_name + str2 + str_message + str3
+        ret_html = str1 + back_color + str2  + back_color + str3 + file_name + str4 + message + str5
 
-        return ret
+        return ret_html
