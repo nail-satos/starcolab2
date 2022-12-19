@@ -75,7 +75,7 @@ def view_double():
         st.session_state['chat_list'] = []
 
     # タイトル
-    st.header('AI同士でおしゃべるする')
+    st.header('AI同士でおしゃべりする')
 
     # メッセージを入力するテキストエリア
     chat_theme = st.text_input(label='おしゃべりの「テーマ」を設定してください', placeholder='例）休日の過ごし方　今日の晩ごはん　好きな音楽　得意な科目 など自由に入力してください')
