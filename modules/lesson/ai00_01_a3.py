@@ -1,14 +1,20 @@
-# from cProfile import label
-# from itertools import chain
-# from pydoc import describe
-# import numpy as np
-# import pandas as pd 
+### 必要な標準ライブラリをインポートする
+import requests         # APIコール用
+import json             # APIからの戻り値の処理用
+import time             # ダミーのsleep用
+
+### 必要な外部ライブラリをインポートする
 import streamlit as st
-# import matplotlib.pyplot as plt 
-# import japanize_matplotlib
-# import seaborn as sns 
-import requests
-import json
+import streamlit.components.v1 as stc
+import numpy as np
+import pandas as pd
+
+### 自作のモジュールをインポートする
+from modules.generic import func_html
+from modules.generic import const     # 同一フォルダ内のconst
+
+### 定数の設定
+DELAY_TIME = 1.5
 
 # meboAPIにユーザーが入力した文字列をpost
 def post_mebo(message):
@@ -29,31 +35,142 @@ def post_mebo(message):
     print(best_responce['utterance'])
     return best_responce['utterance']
 
-def view_lesson():
-    
-    if 'list' not in st.session_state:
-        st.session_state.list = []
+
+def view_single():
 
     # タイトル
     st.header('AIとおしゃべりしよう')
 
     # メッセージを入力するテキストエリア
     you_message= st.text_area(label='メッセージを入力して「送信」ボタンを押してください')
-    st.caption('例）こんにちは！　元気？　昨日は何を食べた？　どんなゲームが好き？　など自由に入力してください')
+    st.caption('例）元気ですか　おはなししよう　昨日は何を食べた？　どんなゲームが好き？　など自由に入力してください')
+
+    col = st.columns([9, 1])
+    send_button = col[1].button('送信')
+
+    # プレースホルダを作成
+    placeholder_main = st.empty()
 
     # ボタンを押したら、post_mebo関数が呼び出される
-    if st.button('送信'):
-        ai_message = post_mebo(message=you_message)
-        st.session_state.list.append(you_message)
-        st.session_state.list.append(ai_message)
+    if send_button:
 
-    # AIとの会話ログ
-    for num in reversed(range(len(st.session_state.list))):
-        if 0 == num % 2:
-            st.write('あなた:' + st.session_state.list[num])
-        else:
-            st.write('AIさん:' + st.session_state.list[num])
+        # プレースホルダにスピナーを出力
+        with st.spinner('考え中…'):
+            ai_message = post_mebo(message=you_message)
+            time.sleep(DELAY_TIME)    # ダミーのスリープ
+
+        # プレースホルダに出力
+        with placeholder_main.container():
+            # st.write('')
+            # st.write('～ AIからの応答 ～')
+            st.info('AIからのメッセージ')
+            text_html = func_html.make_html_balloon('ai101.png', func_html.trans_html_tag(ai_message), 'lavender')
+            stc.html(text_html, height=150)
 
 
-    # 会話のラリーができるAIのAPIを公開した話【個人開発】 - Qiita
-    # https://qiita.com/maKunugi/items/14f1b82a2c0b6fa5c202
+def view_double():
+
+    # セッションステートを初期化する
+    if 'chat_log' not in st.session_state:
+        st.session_state['chat_list'] = []
+
+    # タイトル
+    st.header('AI同士でおしゃべるする')
+
+    # メッセージを入力するテキストエリア
+    chat_theme = st.text_input(label='おしゃべりの「テーマ」を設定してください', placeholder='例）休日の過ごし方　今日の晩ごはん　好きな音楽　得意な科目 など自由に入力してください')
+    # st.caption('例）休日の過ごし方　今日の晩ごはん　将来の夢　好きな音楽　など自由に入力してください')
+
+    chat_times = st.slider('会話を繰り返す「回数」を設定してください', min_value=2, max_value=10, value=6)
+
+    col = st.columns([9, 1])
+    send_button = col[1].button('開始')
+
+    # プレースホルダを作成
+    placeholder_top = st.empty()
+    placeholder_butom = st.empty()
+
+    # ボタンを押したら、post_mebo関数が呼び出される
+    if send_button:
+
+        # スピナーを出力
+        with st.spinner('考え中…'):
+            time.sleep(DELAY_TIME)    # ダミーのスリープ
+
+            ai_message = post_mebo(message=chat_theme)  # 1回目だけテーマを元に会話を開始する
+
+        for i in range(chat_times):
+
+            # # スピナーを出力
+            # with st.spinner('考え中…'):
+            #     ai_message = post_mebo(message=chat_theme)
+            #     time.sleep(const.DELAY_TIME)    # ダミーのスリープ
+
+            # プレースホルダに出力
+            with placeholder_top.container():
+
+                if i % 2 == 0:
+                    st.warning(f'AI 1号（会話 {i+1}/{chat_times}回）')
+                    text_html = func_html.make_html_balloon('ai102.png', func_html.trans_html_tag(ai_message), 'lavender')
+                    st.session_state['chat_list'].append(['AI 1号', ai_message])
+
+                if i % 2 == 1:
+                    st.info(f'AI 2号（会話 {i+1}/{chat_times}回）')
+                    text_html = func_html.make_html_balloon('ai103.png', func_html.trans_html_tag(ai_message), 'azure')
+                    st.session_state['chat_list'].append(['AI 2号', ai_message])
+
+                stc.html(text_html, height=150)
+
+                # 最後のチャットか否かを判断する                
+                if i == (chat_times-1):
+                    st.success('設定した回数の会話が完了しました。会話の記録は以下の通りです。')
+                    log_list = st.session_state['chat_list']
+                    df_log = pd.DataFrame(log_list)
+                    df_log.columns = ['話者', '会話']
+                    df_log.index = np.arange(1, len(df_log)+1)
+                    st.dataframe(df_log)
+
+                else:
+
+                    # スピナーを出力
+                    with st.spinner('考え中…'):
+                        time.sleep(DELAY_TIME)    # ダミーのスリープ
+
+                        # ai_message = ai_message + '。さて、人工知能は？'
+                        ai_message = post_mebo(message=ai_message)  # 2回目以降は相手の会話を元に会話する
+
+
+            # placeholder_butom.empty()
+
+            # # プレースホルダに出力
+            # with placeholder_butom.container():
+
+            #     # スピナーを出力
+            #     with st.spinner('考え中…'):
+            #         time.sleep(const.DELAY_TIME)    # ダミーのスリープ
+            #         ai_message = post_mebo(message=ai_message)
+
+            #     # st.info('AIからのメッセージ')
+            #     text_html = func_html.make_html_balloon('ai103.png', func_html.trans_html_tag(ai_message), 'azure')
+            #     stc.html(text_html, height=150)
+
+    
+
+            # st.info('AIからのメッセージ')
+            # text_html = func_html.make_html_balloon('ai103.png', func_html.trans_html_tag(ai_message), 'lavender')
+            # stc.html(text_html, height=150)
+            # time.sleep(const.DELAY_TIME)    # ダミーのスリープ
+
+
+def view_lesson():
+    
+    option_check = st.sidebar.checkbox('AI同士でおしゃべりするモード')
+    if option_check == False:
+        view_single()
+    else:
+        view_double()
+
+
+
+# 会話のラリーができるAIのAPIを公開した話【個人開発】 - Qiita
+# https://qiita.com/maKunugi/items/14f1b82a2c0b6fa5c202
