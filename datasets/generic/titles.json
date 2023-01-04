@@ -1,0 +1,78 @@
+{
+    "ai00_01": [
+        {
+            "Chapter": "準備編",
+            "Lesson": "AIの知的な機能を体験する"
+        },
+        
+        {
+            "Activity_ID": "a1",
+            "Activity": "群衆の認識に挑戦だ！",
+            "Steps": 1
+        },
+
+        {
+            "Activity_ID": "a2",
+            "Activity": "AIで群衆を認識しよう",
+            "Steps": 1
+        },
+
+        {
+            "Activity_ID": "a3",
+            "Activity": "AIとおしゃべりしよう",
+            "Steps": 1
+        }
+
+    ],
+
+    "ai00_02": [
+        {
+            "Chapter": "準備編",
+            "Lesson": "AIのプログラムを作るには"
+        },
+        
+        {
+            "Activity_ID": "a1",
+            "Activity": "STAR ColabでPythonを動かそう",
+            "Steps": 6
+        },
+
+        {
+            "Activity_ID": "a2",
+            "Activity": "いろいろなエラーを体験しよう",
+            "Steps": 5
+        }
+    ],
+
+    "ai00_03": [
+        {
+            "Chapter": "準備編",
+            "Lesson": "自由にPythonを記述しよう"
+        },
+        
+        {
+            "Activity_ID": "a1",
+            "Activity": "Pythonプログラミング練習場",
+            "Steps": 1
+        }
+    ],
+
+    "ai01_01": [
+        {
+            "Chapter": "認識編",
+            "Lesson": "「認識」とは何か？"
+        },
+        
+        {
+            "Activity_ID": "a1",
+            "Activity": "物体検出「偉人を探せ！」体験",
+            "Steps": 5
+        },
+        {
+            "Activity_ID": "a2",
+            "Activity": "物体検出「偉人を探せ！」作成",
+            "Steps": 6
+        }
+    ]    
+
+}

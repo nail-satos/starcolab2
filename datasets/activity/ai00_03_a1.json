@@ -1,0 +1,44 @@
+{
+	"演習1": [
+		{
+			"step": "01",
+			"subtitle": "Pythonプログラミングのフリー演習",
+			"code": "",
+			"height" : 350,
+			"result": "",
+			"before": [
+				{
+					"balloon": "ai010.png",
+					"name": "須多先生",
+					"text": "Pythonのプログラミングを自由に練習できる演習です<C>《プログラミングエリア》にプログラムを記述して実行しましょう",
+					"head": "説明",
+					"frame": "frameinfo_01",
+					"size": 250,
+					"tail": "STAR Colab."
+				}
+			],
+			"success": [
+				{
+					"balloon": "ai010.png",
+					"name": "須多先生",
+					"text": "プログラムが実行されました 《実行結果エリア》を確認しましょう",
+					"head": "説明",
+					"frame": "frameinfo_01",
+					"size": 250,
+					"tail": "STAR Colab.",
+					"passflg": "OK"
+				}
+			],
+			"error": [
+				{
+					"balloon": "ai010.png",
+					"name": "須多先生",
+					"text": "error_01",
+					"tail": "STAR Colab.",
+					"passflg": "NG"
+				}
+			]
+		}
+	]
+
+}

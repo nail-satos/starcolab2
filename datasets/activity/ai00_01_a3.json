@@ -1,0 +1,15 @@
+{
+	"演習1": [
+		{
+			"step": "01",
+			"before": [
+				{
+					"module" : "引数",
+					"tail": "STAR Colab.",
+					"passflg": "OK"
+				}
+			]
+		}
+	]
+
+}
